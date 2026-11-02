@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fondo:#0b0e13; --panel:#11151d; --borde:#1d2430;
+  --texto:#d6dce6; --tenue:#67728a;
+  --ambar:#fbbf24; --ok:#34d399; --fallo:#f87171;
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--fondo);color:var(--texto);font-family:var(--display);
+  font-size:15px;line-height:1.55;padding:28px clamp(16px,4vw,48px) 60px}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--ambar)}
+:focus-visible{outline:2px solid var(--ambar);outline-offset:2px;border-radius:4px}
+
+/* ── Cabecera ── */
+header{max-width:1240px;margin:0 auto 10px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:14px 22px}
+h1{font-size:26px;font-weight:700;letter-spacing:-0.5px}
+h1 span{color:var(--ambar)}
+#reloj-estado{font-family:var(--mono);font-size:12px;color:var(--tenue)}
+#ejecutar{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;
+  letter-spacing:.8px;color:var(--ambar);background:#fbbf2412;
+  border:1px solid #fbbf2440;border-radius:9px;padding:9px 18px;cursor:pointer;
+  transition:background .15s}
+#ejecutar:hover:not(:disabled){background:#fbbf2422}
+#ejecutar:disabled{color:var(--tenue);border-color:var(--borde);background:transparent;cursor:wait}
+
+/* ── Firma: línea de pulso ── */
+#pulso{max-width:1240px;margin:0 auto 26px;height:34px;overflow:hidden;
+  border-bottom:1px solid var(--borde)}
+#pulso svg{width:200%;height:34px;display:block}
+#trazo{animation:latido 8s linear infinite}
+body.ejecutando #trazo{animation-duration:2.2s}
+@keyframes latido{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){#trazo{animation:none}}
+
+/* ── Rejilla ── */
+main{max-width:1240px;margin:0 auto;display:grid;gap:22px;
+  grid-template-columns:1fr 380px}
+@media (max-width:920px){main{grid-template-columns:1fr}}
+section h2{font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--tenue);margin-bottom:12px}
+.panel{background:var(--panel);border:1px solid var(--borde);border-radius:12px;padding:18px}
+.vacio{color:var(--tenue);font-size:14px}
+
+/* ── Hilos ── */
+#lista-hilos{display:grid;gap:14px}
+.hilo{background:var(--panel);border:1px solid var(--borde);border-radius:12px;
+  padding:16px 18px;cursor:pointer;transition:border-color .15s}
+.hilo:hover{border-color:#2a3446}
+.caret{font-family:var(--mono);font-size:11px;color:var(--tenue);flex:none}
+.hilo.abierto .caret{color:var(--ambar)}
+.hilo-cab{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.hilo-cab h3{font-size:16px;font-weight:500;letter-spacing:-0.2px}
+.hilo-cab time{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--tenue);white-space:nowrap}
+.relevancia{display:inline-flex;gap:3px}
+.relevancia i{width:9px;height:9px;border-radius:2px;background:var(--borde)}
+.relevancia i.on{background:var(--ambar)}
+.hilo p{font-size:14px;color:#aeb6c6;white-space:pre-wrap}
+
+/* ── Lateral ── */
+aside{display:flex;flex-direction:column;gap:22px}
+#sintesis{font-size:14px;color:#c3cad8;white-space:pre-wrap;max-height:420px;overflow:auto}
+#sintesis-meta{font-family:var(--mono);font-size:11px;color:var(--tenue);margin-bottom:10px}
+#lista-fuentes{display:grid;gap:8px;font-family:var(--mono);font-size:12px}
+#lista-fuentes div{display:flex;align-items:center;gap:9px}
+.punto{width:8px;height:8px;border-radius:50%;flex:none}
+.punto.ok{background:var(--ok)}
+.punto.fallo{background:var(--fallo)}
+#lista-fuentes .detalle{margin-left:auto;color:var(--tenue)}
+.cot-bloque{margin-bottom:14px}
+.cot-bloque:last-child{margin-bottom:0}
+.cot-cab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;margin-bottom:6px}
+.cot-cab .neto-pos{color:var(--ambar)} .cot-cab .neto-neg{color:var(--fallo)}
+.cot-grafico{display:flex;align-items:center;gap:1px;height:64px;position:relative}
+.cot-grafico::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--borde)}
+.cot-barra{flex:1;min-width:2px;position:relative;height:100%}
+.cot-barra i{position:absolute;left:0;right:0;display:block;border-radius:1px}
+.cot-barra i.pos{background:#fbbf2470;bottom:50%}
+.cot-barra i.neg{background:#f8717170;top:50%}
+.cot-barra.ultima i.pos{background:var(--ambar)}
+.cot-barra.ultima i.neg{background:var(--fallo)}
+#calibracion{font-family:var(--mono);font-size:11.5px;color:var(--tenue);margin-bottom:10px}
+#ver-fiabilidad{float:right;font-family:var(--mono);font-size:10px;letter-spacing:.5px;
+  color:var(--ambar);text-transform:none}
+#lista-predicciones{display:grid;gap:10px}
+.pred{border-top:1px solid var(--borde);padding-top:9px;font-size:13px;color:#b7bfcf}
+.pred:first-child{border-top:none;padding-top:0}
+.pred-meta{font-family:var(--mono);font-size:11px;color:var(--tenue);display:flex;gap:10px;align-items:center;margin-top:5px}
+.pred-meta .vencida{color:var(--ambar)}
+.pred-meta button{font-family:var(--mono);font-size:11px;border-radius:6px;border:1px solid var(--borde);
+  background:transparent;color:var(--texto);padding:2px 9px;cursor:pointer}
+.pred-meta button:hover{border-color:var(--ambar);color:var(--ambar)}
+#hist-cab{font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--tenue);
+  cursor:pointer;margin-top:14px;padding-top:10px;border-top:1px solid var(--borde);
+  display:flex;gap:8px;align-items:center}
+#hist-cab:hover{color:var(--ambar)}
+#lista-resueltas{display:grid;gap:9px;margin-top:10px}
+.res{font-size:12.5px;color:#9aa4b6;display:flex;gap:9px;align-items:flex-start}
+.res .marca{flex:none;font-family:var(--mono);font-size:12px;line-height:1.5}
+.res .marca.si{color:var(--ok)} .res .marca.no{color:var(--fallo)}
+.res .cuerpo{flex:1}
+.res .datos{font-family:var(--mono);font-size:10.5px;color:var(--tenue);margin-top:3px}
+#tramos{font-family:var(--mono);font-size:10.5px;color:var(--tenue);margin-top:8px;
+  display:grid;gap:2px}
+
+/* ── Noticias ── */
+#noticias{grid-column:1 / -1}
+#lista-noticias{display:grid;gap:2px;font-family:var(--mono);font-size:12.5px}
+#lista-noticias a{display:flex;gap:14px;padding:7px 10px;border-radius:7px}
+#lista-noticias a:hover{background:var(--panel)}
+.n-hora{color:var(--tenue);flex:none;width:88px}
+.n-fuente{color:var(--ambar);flex:none;width:96px;overflow:hidden;text-overflow:ellipsis}
+.n-titular{color:#b7bfcf;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#error{max-width:1240px;margin:0 auto 18px;font-family:var(--mono);font-size:12px;
+  color:var(--fallo);display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Market <span>Pulse</span></h1>
+  <a href="/#positioning" style="font-family:var(--mono);font-size:12px;color:var(--ambar)">POSITIONING · COT ↗</a>
+  <div id="reloj-estado">cargando…</div>
+  <button id="ejecutar">Ejecutar pasada</button>
+</header>
+
+<div id="pulso" aria-hidden="true">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none">
+    <path id="trazo" fill="none" stroke="#fbbf24" stroke-width="1.6" stroke-opacity=".8"
+      d="M0,20 H160 L172,20 L180,6 L188,34 L196,13 L204,20 H430 L442,20 L450,9 L458,31 L466,16 L474,20 H600
+         H760 L772,20 L780,6 L788,34 L796,13 L804,20 H1030 L1042,20 L1050,9 L1058,31 L1066,16 L1074,20 H1200"/>
+  </svg>
+</div>
+
+<p id="error"></p>
+
+<main>
+  <section id="hilos">
+    <h2>Hilos</h2>
+    <div id="lista-hilos"><p class="vacio">Aún no hay hilos — se crearán en la primera pasada del agente.</p></div>
+  </section>
+
+  <aside>
+    <section>
+      <h2>Última síntesis</h2>
+      <div class="panel">
+        <div id="sintesis-meta"></div>
+        <div id="sintesis"><span class="vacio">Sin análisis todavía. Ejecuta una pasada.</span></div>
+      </div>
+    </section>
+    <section>
+      <h2>Predicciones <a href="/calibracion" id="ver-fiabilidad">ver fiabilidad →</a></h2>
+      <div class="panel">
+        <div id="calibracion" class="vacio">Sin predicciones todavía.</div>
+        <div id="tramos"></div>
+        <div id="lista-predicciones"></div>
+        <div id="hist-cab" style="display:none"></div>
+        <div id="lista-resueltas" style="display:none"></div>
+      </div>
+    </section>
+    <section>
+      <h2>Posicionamiento (COT)</h2>
+      <div class="panel" id="panel-cot"><span class="vacio">Cargando histórico semanal…</span></div>
+    </section>
+    <section>
+      <h2>Fuentes</h2>
+      <div class="panel">
+        <div id="lista-fuentes"><span class="vacio">Se comprueban en cada pasada.</span></div>
+      </div>
+    </section>
+  </aside>
+
+  <section id="noticias">
+    <h2>Noticias recientes</h2>
+    <div id="lista-noticias"><p class="vacio">Nada recogido aún.</p></div>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const boton = $("ejecutar");
+let temporizador = null;
+
+const fecha = iso => iso ? new Date(iso).toLocaleString("es-ES",
+  {day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit"}) : "—";
+
+function el(tag, clase, texto){
+  const e = document.createElement(tag);
+  if (clase) e.className = clase;
+  if (texto !== undefined) e.textContent = texto;   // nunca innerHTML con datos externos
+  return e;
+}
+
+async function api(ruta){ const r = await fetch(ruta); return r.json(); }
+
+function pintarEstado(e){
+  document.body.classList.toggle("ejecutando", e.ejecutando);
+  boton.disabled = e.ejecutando;
+  boton.textContent = e.ejecutando ? "Pasada en curso…" : "Ejecutar pasada";
+  $("reloj-estado").textContent = e.ejecutando
+    ? "analizando mercados…"
+    : (e.ultima_pasada ? `última pasada ${fecha(e.ultima_pasada)} · ${e.nuevas_ultima_pasada} nuevas`
+                       : "sin pasadas todavía");
+  const err = $("error");
+  err.style.display = e.ultimo_error ? "block" : "none";
+  err.textContent = e.ultimo_error ? `La última pasada falló: ${e.ultimo_error}` : "";
+}
+
+const hilosAbiertos = new Set();
+
+function pintarHilos(hilos){
+  const caja = $("lista-hilos"); caja.replaceChildren();
+  if (!hilos.length){
+    caja.append(el("p","vacio","Aún no hay hilos — se crearán en la primera pasada del agente."));
+    return;
+  }
+  for (const h of hilos){
+    const card = el("article","hilo");
+    const cab = el("div","hilo-cab");
+    const caret = el("span","caret","▸");
+    const rel = el("span","relevancia");
+    for (let i=1;i<=5;i++) rel.append(el("i", i<=h.relevancia ? "on" : ""));
+    cab.append(caret, rel, el("h3","",h.nombre), el("time","",fecha(h.actualizado)));
+    const p = el("p","",h.estado_resumen);
+    card.append(cab, p);
+    card.tabIndex = 0;
+    card.setAttribute("role","button");
+    const alternar = () => alternarHilo(h.id, h.estado_resumen, card, p, caret);
+    card.addEventListener("click", alternar);
+    card.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " "){ e.preventDefault(); alternar(); }
+    });
+    caja.append(card);
+    if (hilosAbiertos.has(h.id)) alternar();   // conserva lo abierto tras el auto-refresco
+  }
+}
+
+async function alternarHilo(id, resumen, card, p, caret){
+  if (card.classList.contains("abierto")){
+    card.classList.remove("abierto");
+    hilosAbiertos.delete(id);
+    caret.textContent = "▸";
+    p.textContent = resumen;
+    return;
+  }
+  card.classList.add("abierto");
+  hilosAbiertos.add(id);
+  caret.textContent = "▾";
+  try{
+    const h = await api("/api/hilos/" + id);
+    p.textContent = h.estado || resumen;
+  }catch{
+    p.textContent = resumen;
+  }
+}
+
+function pintarSintesis(lista){
+  if (!lista.length) return;
+  const s = lista[0];
+  $("sintesis-meta").textContent = `${fecha(s.creado)} · ${s.n_noticias} noticias procesadas`;
+  $("sintesis").replaceChildren(el("span","",s.texto));
+}
+
+function pintarFuentes(salud){
+  const caja = $("lista-fuentes");
+  const nombres = Object.keys(salud || {});
+  if (!nombres.length) return;
+  caja.replaceChildren();
+  for (const n of nombres){
+    const s = salud[n];
+    const fila = el("div");
+    fila.append(el("span", "punto " + (s.ok ? "ok" : "fallo")),
+                el("span","",n),
+                el("span","detalle", s.ok ? `${s.n} entradas` : "sin respuesta"));
+    caja.append(fila);
+  }
+}
+
+function pintarNoticias(lista){
+  const caja = $("lista-noticias"); caja.replaceChildren();
+  if (!lista.length){ caja.append(el("p","vacio","Nada recogido aún.")); return; }
+  for (const n of lista){
+    const a = el("a");
+    a.href = n.url || "#"; a.target = "_blank"; a.rel = "noopener";
+    a.append(el("span","n-hora",fecha(n.publicado || n.creado)),
+             el("span","n-fuente",n.fuente),
+             el("span","n-titular",n.titular));
+    caja.append(a);
+  }
+}
+
+function pintarPredicciones(datos){
+  const cal = datos.calibracion || {};
+  $("calibracion").textContent = cal.n
+    ? `${cal.n} resueltas · Brier medio ${cal.brier_medio} · sesgo ${cal.sesgo > 0 ? "+" : ""}${cal.sesgo}`
+    : "Sin predicciones resueltas todavía.";
+  const caja = $("lista-predicciones"); caja.replaceChildren();
+  for (const p of (datos.abiertas || [])){
+    const fila = el("div","pred");
+    fila.append(el("div","",p.afirmacion));
+    const meta = el("div","pred-meta");
+    meta.append(el("span","", `p=${p.probabilidad.toFixed(2)}`),
+                el("span", p.vencida ? "vencida" : "", p.vencida ? `vence ${p.horizonte} · VENCIDA` : `vence ${p.horizonte}`));
+    meta.append(el("span", "", p.estado_validacion || "PENDING"));
+    if (p.estado_validacion === "NEEDS_REVIEW") {
+      const revision = el("a", "", "Revisión manual →");
+      revision.href = "/calibracion#revision";
+      meta.append(revision);
+    }
+    fila.append(meta);
+    caja.append(fila);
+  }
+  if (!(datos.abiertas || []).length)
+    caja.append(el("div","vacio","Ninguna predicción abierta ahora mismo."));
+
+  // Tramos: ¿su "70%" ocurre el 70% de las veces?
+  const tr = $("tramos"); tr.replaceChildren();
+  for (const t of (cal.tramos || [])){
+    const desvio = t.observada - t.declarada;
+    const linea = el("div","", `${t.tramo.padEnd(7)} declaró ${t.declarada.toFixed(2)} · ocurrió ${t.observada.toFixed(2)} · n=${t.n}`);
+    if (Math.abs(desvio) >= 0.15) linea.style.color = "var(--ambar)";
+    tr.append(linea);
+  }
+
+  pintarResueltas(datos.resueltas || []);
+}
+
+let histAbierto = false;
+
+function pintarResueltas(lista){
+  const cab = $("hist-cab"), caja = $("lista-resueltas");
+  if (!lista.length){ cab.style.display = "none"; caja.style.display = "none"; return; }
+  const aciertos = lista.filter(p => p.resultado === 1).length;
+  cab.style.display = "flex";
+  cab.replaceChildren(el("span","", histAbierto ? "▾" : "▸"),
+    el("span","", `HISTORIAL — ${aciertos}/${lista.length} eventos ocurrieron`));
+  cab.onclick = () => { histAbierto = !histAbierto; pintarResueltas(lista); };
+  caja.style.display = histAbierto ? "grid" : "none";
+  if (!histAbierto) return;
+
+  caja.replaceChildren();
+  for (const p of lista){
+    const fila = el("div","res");
+    fila.append(el("span","marca " + (p.resultado ? "si" : "no"), p.resultado ? "✓" : "✗"));
+    const cuerpo = el("div","cuerpo");
+    cuerpo.append(el("div","",p.afirmacion));
+    const quien = p.resuelto_por || "legacy";
+    cuerpo.append(el("div","datos",
+      `dijo p=${p.probabilidad.toFixed(2)} · ${p.resultado ? "ocurrió" : "no ocurrió"}` +
+      ` · Brier ${p.brier} · resuelta por ${quien} el ${fecha(p.resuelto)}`));
+    const justif = (p.nota || "").replace(/^\[[^\]]+\]\s*/, "");
+    if (justif) cuerpo.append(el("div","datos", justif));
+    fila.append(cuerpo);
+    caja.append(fila);
+  }
+}
+
+
+function pintarCot(series){
+  const caja = $("panel-cot");
+  const nombres = Object.keys(series || {}).filter(n => (series[n] || []).length);
+  if (!nombres.length){
+    caja.replaceChildren(el("span","vacio","Sin datos de la CFTC ahora mismo."));
+    return;
+  }
+  caja.replaceChildren();
+  for (const nombre of nombres){
+    const serie = series[nombre];
+    const ultimo = serie[serie.length - 1];
+    const tope = Math.max(...serie.map(p => Math.abs(p.neto))) || 1;
+    const bloque = el("div","cot-bloque");
+    const cab = el("div","cot-cab");
+    cab.append(el("span","",nombre),
+               el("span", ultimo.neto >= 0 ? "neto-pos" : "neto-neg",
+                  `${ultimo.neto >= 0 ? "+" : ""}${ultimo.neto.toLocaleString("es-ES")} · ${ultimo.fecha}`));
+    const graf = el("div","cot-grafico");
+    serie.forEach((p, i) => {
+      const barra = el("div","cot-barra" + (i === serie.length - 1 ? " ultima" : ""));
+      const alto = Math.max(2, Math.round(Math.abs(p.neto) / tope * 30));
+      const i2 = el("i", p.neto >= 0 ? "pos" : "neg");
+      i2.style.height = alto + "px";
+      barra.title = `${p.fecha}: ${p.neto.toLocaleString("es-ES")}`;
+      barra.append(i2);
+      graf.append(barra);
+    });
+    bloque.append(cab, graf);
+    caja.append(bloque);
+  }
+}
+
+async function cargar(){
+  try{
+    const [e, hilos, sintesis, noticias, pred] = await Promise.all([
+      api("/api/estado"), api("/api/hilos"), api("/api/sintesis"), api("/api/noticias"),
+      api("/api/predicciones")
+    ]);
+    pintarEstado(e); pintarHilos(hilos); pintarSintesis(sintesis);
+    pintarFuentes(e.salud_fuentes); pintarNoticias(noticias); pintarPredicciones(pred);
+    api("/api/cot").then(pintarCot).catch(() => {});  // aparte: la CFTC tarda en frío
+    clearInterval(temporizador);
+    temporizador = setInterval(cargar, e.ejecutando ? 5000 : 60000);
+  }catch{
+    $("reloj-estado").textContent = "sin conexión con el servidor";
+  }
+}
+
+boton.addEventListener("click", async () => {
+  boton.disabled = true;
+  await fetch("/api/ejecutar", {method:"POST"});
+  setTimeout(cargar, 800);
+});
+
+cargar();
+</script>
+</body>
+</html>

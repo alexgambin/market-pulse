@@ -1,0 +1,1429 @@
+{
+  "api_version": "cot-overview-v1",
+  "items": [
+    {
+      "key": "WTI",
+      "instrument": "WTI",
+      "label": "WTI",
+      "category": "ENERGY",
+      "source": "CFTC",
+      "dataset_id": "72hh-3qpy",
+      "market_code": "067651",
+      "source_url": "https://publicreporting.cftc.gov/resource/72hh-3qpy.json?$where=cftc_contract_market_code='067651'&$order=report_date_as_yyyy_mm_dd%20DESC&$limit=52",
+      "report_type": "DISAGGREGATED",
+      "report_scope": "FUTURES_ONLY",
+      "participant_category": "MANAGED_MONEY",
+      "data_kind": "OBSERVED_CFTC",
+      "unit": "CONTRACTS",
+      "note": "Futuros de crudo WTI",
+      "published_at": null,
+      "fetched_at": null,
+      "status": "AVAILABLE",
+      "error": null,
+      "history": [
+        {
+          "date": "2025-09-09",
+          "net": 36000
+        },
+        {
+          "date": "2025-09-16",
+          "net": 50304
+        },
+        {
+          "date": "2025-09-23",
+          "net": 64038
+        },
+        {
+          "date": "2025-09-30",
+          "net": 76654
+        },
+        {
+          "date": "2025-10-07",
+          "net": 87649
+        },
+        {
+          "date": "2025-10-14",
+          "net": 96585
+        },
+        {
+          "date": "2025-10-21",
+          "net": 103106
+        },
+        {
+          "date": "2025-10-28",
+          "net": 106952
+        },
+        {
+          "date": "2025-11-04",
+          "net": 107969
+        },
+        {
+          "date": "2025-11-11",
+          "net": 106117
+        },
+        {
+          "date": "2025-11-18",
+          "net": 101469
+        },
+        {
+          "date": "2025-11-25",
+          "net": 94211
+        },
+        {
+          "date": "2025-12-02",
+          "net": 84633
+        },
+        {
+          "date": "2025-12-09",
+          "net": 73116
+        },
+        {
+          "date": "2025-12-16",
+          "net": 60119
+        },
+        {
+          "date": "2025-12-23",
+          "net": 46160
+        },
+        {
+          "date": "2025-12-30",
+          "net": 31797
+        },
+        {
+          "date": "2026-01-06",
+          "net": 17601
+        },
+        {
+          "date": "2026-01-13",
+          "net": 4138
+        },
+        {
+          "date": "2026-01-20",
+          "net": -8053
+        },
+        {
+          "date": "2026-01-27",
+          "net": -18489
+        },
+        {
+          "date": "2026-02-03",
+          "net": -26753
+        },
+        {
+          "date": "2026-02-10",
+          "net": -32515
+        },
+        {
+          "date": "2026-02-17",
+          "net": -35545
+        },
+        {
+          "date": "2026-02-24",
+          "net": -35723
+        },
+        {
+          "date": "2026-03-03",
+          "net": -33042
+        },
+        {
+          "date": "2026-03-10",
+          "net": -27608
+        },
+        {
+          "date": "2026-03-17",
+          "net": -19639
+        },
+        {
+          "date": "2026-03-24",
+          "net": -9451
+        },
+        {
+          "date": "2026-03-31",
+          "net": 2548
+        },
+        {
+          "date": "2026-04-07",
+          "net": 15882
+        },
+        {
+          "date": "2026-04-14",
+          "net": 30017
+        },
+        {
+          "date": "2026-04-21",
+          "net": 44391
+        },
+        {
+          "date": "2026-04-28",
+          "net": 58430
+        },
+        {
+          "date": "2026-05-05",
+          "net": 71576
+        },
+        {
+          "date": "2026-05-12",
+          "net": 83303
+        },
+        {
+          "date": "2026-05-19",
+          "net": 93144
+        },
+        {
+          "date": "2026-05-26",
+          "net": 100706
+        },
+        {
+          "date": "2026-06-02",
+          "net": 105690
+        },
+        {
+          "date": "2026-06-09",
+          "net": 107895
+        },
+        {
+          "date": "2026-06-16",
+          "net": 107233
+        },
+        {
+          "date": "2026-06-23",
+          "net": 103732
+        },
+        {
+          "date": "2026-06-30",
+          "net": 97531
+        },
+        {
+          "date": "2026-07-07",
+          "net": 88876
+        },
+        {
+          "date": "2026-07-14",
+          "net": 78114
+        },
+        {
+          "date": "2026-07-21",
+          "net": 65672
+        },
+        {
+          "date": "2026-07-28",
+          "net": 52048
+        },
+        {
+          "date": "2026-08-04",
+          "net": 37783
+        },
+        {
+          "date": "2026-08-11",
+          "net": 23448
+        },
+        {
+          "date": "2026-08-18",
+          "net": 9613
+        },
+        {
+          "date": "2026-08-25",
+          "net": -3169
+        },
+        {
+          "date": "2026-09-01",
+          "net": -14390
+        }
+      ],
+      "report_date": "2026-09-01",
+      "net": -14390,
+      "weekly_change": -11221,
+      "previous_report_date": "2026-08-25",
+      "gap_days": 7,
+      "age_days": 8,
+      "age_warning": false
+    },
+    {
+      "key": "Oro",
+      "instrument": "Oro",
+      "label": "Oro",
+      "category": "METALS",
+      "source": "CFTC",
+      "dataset_id": "72hh-3qpy",
+      "market_code": "088691",
+      "source_url": "https://publicreporting.cftc.gov/resource/72hh-3qpy.json?$where=cftc_contract_market_code='088691'&$order=report_date_as_yyyy_mm_dd%20DESC&$limit=52",
+      "report_type": "DISAGGREGATED",
+      "report_scope": "FUTURES_ONLY",
+      "participant_category": "MANAGED_MONEY",
+      "data_kind": "OBSERVED_CFTC",
+      "unit": "CONTRACTS",
+      "note": "Futuros COMEX; no cotización spot",
+      "published_at": null,
+      "fetched_at": null,
+      "status": "AVAILABLE",
+      "error": null,
+      "history": [
+        {
+          "date": "2025-09-09",
+          "net": 85785
+        },
+        {
+          "date": "2025-09-16",
+          "net": 92306
+        },
+        {
+          "date": "2025-09-23",
+          "net": 96152
+        },
+        {
+          "date": "2025-09-30",
+          "net": 97169
+        },
+        {
+          "date": "2025-10-07",
+          "net": 95317
+        },
+        {
+          "date": "2025-10-14",
+          "net": 90669
+        },
+        {
+          "date": "2025-10-21",
+          "net": 83411
+        },
+        {
+          "date": "2025-10-28",
+          "net": 73833
+        },
+        {
+          "date": "2025-11-04",
+          "net": 62316
+        },
+        {
+          "date": "2025-11-11",
+          "net": 49319
+        },
+        {
+          "date": "2025-11-18",
+          "net": 35360
+        },
+        {
+          "date": "2025-11-25",
+          "net": 20997
+        },
+        {
+          "date": "2025-12-02",
+          "net": 6801
+        },
+        {
+          "date": "2025-12-09",
+          "net": -6661
+        },
+        {
+          "date": "2025-12-16",
+          "net": -18853
+        },
+        {
+          "date": "2025-12-23",
+          "net": -29289
+        },
+        {
+          "date": "2025-12-30",
+          "net": -37553
+        },
+        {
+          "date": "2026-01-06",
+          "net": -43315
+        },
+        {
+          "date": "2026-01-13",
+          "net": -46345
+        },
+        {
+          "date": "2026-01-20",
+          "net": -46523
+        },
+        {
+          "date": "2026-01-27",
+          "net": -43842
+        },
+        {
+          "date": "2026-02-03",
+          "net": -38408
+        },
+        {
+          "date": "2026-02-10",
+          "net": -30439
+        },
+        {
+          "date": "2026-02-17",
+          "net": -20251
+        },
+        {
+          "date": "2026-02-24",
+          "net": -8251
+        },
+        {
+          "date": "2026-03-03",
+          "net": 5082
+        },
+        {
+          "date": "2026-03-10",
+          "net": 19217
+        },
+        {
+          "date": "2026-03-17",
+          "net": 33591
+        },
+        {
+          "date": "2026-03-24",
+          "net": 47630
+        },
+        {
+          "date": "2026-03-31",
+          "net": 60776
+        },
+        {
+          "date": "2026-04-07",
+          "net": 72503
+        },
+        {
+          "date": "2026-04-14",
+          "net": 82344
+        },
+        {
+          "date": "2026-04-21",
+          "net": 89906
+        },
+        {
+          "date": "2026-04-28",
+          "net": 94890
+        },
+        {
+          "date": "2026-05-05",
+          "net": 97095
+        },
+        {
+          "date": "2026-05-12",
+          "net": 96433
+        },
+        {
+          "date": "2026-05-19",
+          "net": 92932
+        },
+        {
+          "date": "2026-05-26",
+          "net": 86731
+        },
+        {
+          "date": "2026-06-02",
+          "net": 78076
+        },
+        {
+          "date": "2026-06-09",
+          "net": 67314
+        },
+        {
+          "date": "2026-06-16",
+          "net": 54872
+        },
+        {
+          "date": "2026-06-23",
+          "net": 41248
+        },
+        {
+          "date": "2026-06-30",
+          "net": 26983
+        },
+        {
+          "date": "2026-07-07",
+          "net": 12648
+        },
+        {
+          "date": "2026-07-14",
+          "net": -1186
+        },
+        {
+          "date": "2026-07-21",
+          "net": -13969
+        },
+        {
+          "date": "2026-07-28",
+          "net": -25190
+        },
+        {
+          "date": "2026-08-04",
+          "net": -34403
+        },
+        {
+          "date": "2026-08-11",
+          "net": -41239
+        },
+        {
+          "date": "2026-08-18",
+          "net": -45427
+        },
+        {
+          "date": "2026-08-25",
+          "net": -46799
+        },
+        {
+          "date": "2026-09-01",
+          "net": -45300
+        }
+      ],
+      "report_date": "2026-09-01",
+      "net": -45300,
+      "weekly_change": 1499,
+      "previous_report_date": "2026-08-25",
+      "gap_days": 7,
+      "age_days": 8,
+      "age_warning": false
+    },
+    {
+      "key": "Plata",
+      "instrument": "Plata",
+      "label": "Plata",
+      "category": "METALS",
+      "source": "CFTC",
+      "dataset_id": "72hh-3qpy",
+      "market_code": "084691",
+      "source_url": "https://publicreporting.cftc.gov/resource/72hh-3qpy.json?$where=cftc_contract_market_code='084691'&$order=report_date_as_yyyy_mm_dd%20DESC&$limit=52",
+      "report_type": "DISAGGREGATED",
+      "report_scope": "FUTURES_ONLY",
+      "participant_category": "MANAGED_MONEY",
+      "data_kind": "OBSERVED_CFTC",
+      "unit": "CONTRACTS",
+      "note": "Futuros COMEX; no cotización spot",
+      "published_at": null,
+      "fetched_at": null,
+      "status": "AVAILABLE",
+      "error": null,
+      "history": [
+        {
+          "date": "2025-09-09",
+          "net": 79869
+        },
+        {
+          "date": "2025-09-16",
+          "net": 72611
+        },
+        {
+          "date": "2025-09-23",
+          "net": 63033
+        },
+        {
+          "date": "2025-09-30",
+          "net": 51516
+        },
+        {
+          "date": "2025-10-07",
+          "net": 38519
+        },
+        {
+          "date": "2025-10-14",
+          "net": 24560
+        },
+        {
+          "date": "2025-10-21",
+          "net": 10197
+        },
+        {
+          "date": "2025-10-28",
+          "net": -3998
+        },
+        {
+          "date": "2025-11-04",
+          "net": -17461
+        },
+        {
+          "date": "2025-11-11",
+          "net": -29653
+        },
+        {
+          "date": "2025-11-18",
+          "net": -40089
+        },
+        {
+          "date": "2025-11-25",
+          "net": -48353
+        },
+        {
+          "date": "2025-12-02",
+          "net": -54115
+        },
+        {
+          "date": "2025-12-09",
+          "net": -57145
+        },
+        {
+          "date": "2025-12-16",
+          "net": -57323
+        },
+        {
+          "date": "2025-12-23",
+          "net": -54642
+        },
+        {
+          "date": "2025-12-30",
+          "net": -49208
+        },
+        {
+          "date": "2026-01-06",
+          "net": -41239
+        },
+        {
+          "date": "2026-01-13",
+          "net": -31051
+        },
+        {
+          "date": "2026-01-20",
+          "net": -19051
+        },
+        {
+          "date": "2026-01-27",
+          "net": -5717
+        },
+        {
+          "date": "2026-02-03",
+          "net": 8417
+        },
+        {
+          "date": "2026-02-10",
+          "net": 22791
+        },
+        {
+          "date": "2026-02-17",
+          "net": 36830
+        },
+        {
+          "date": "2026-02-24",
+          "net": 49976
+        },
+        {
+          "date": "2026-03-03",
+          "net": 61703
+        },
+        {
+          "date": "2026-03-10",
+          "net": 71544
+        },
+        {
+          "date": "2026-03-17",
+          "net": 79106
+        },
+        {
+          "date": "2026-03-24",
+          "net": 84090
+        },
+        {
+          "date": "2026-03-31",
+          "net": 86295
+        },
+        {
+          "date": "2026-04-07",
+          "net": 85633
+        },
+        {
+          "date": "2026-04-14",
+          "net": 82132
+        },
+        {
+          "date": "2026-04-21",
+          "net": 75931
+        },
+        {
+          "date": "2026-04-28",
+          "net": 67276
+        },
+        {
+          "date": "2026-05-05",
+          "net": 56514
+        },
+        {
+          "date": "2026-05-12",
+          "net": 44072
+        },
+        {
+          "date": "2026-05-19",
+          "net": 30448
+        },
+        {
+          "date": "2026-05-26",
+          "net": 16183
+        },
+        {
+          "date": "2026-06-02",
+          "net": 1848
+        },
+        {
+          "date": "2026-06-09",
+          "net": -11986
+        },
+        {
+          "date": "2026-06-16",
+          "net": -24769
+        },
+        {
+          "date": "2026-06-23",
+          "net": -35990
+        },
+        {
+          "date": "2026-06-30",
+          "net": -45203
+        },
+        {
+          "date": "2026-07-07",
+          "net": -52039
+        },
+        {
+          "date": "2026-07-14",
+          "net": -56227
+        },
+        {
+          "date": "2026-07-21",
+          "net": -57599
+        },
+        {
+          "date": "2026-07-28",
+          "net": -56100
+        },
+        {
+          "date": "2026-08-04",
+          "net": -51791
+        },
+        {
+          "date": "2026-08-11",
+          "net": -44843
+        },
+        {
+          "date": "2026-08-18",
+          "net": -35533
+        },
+        {
+          "date": "2026-08-25",
+          "net": -24233
+        },
+        {
+          "date": "2026-09-01",
+          "net": -11392
+        }
+      ],
+      "report_date": "2026-09-01",
+      "net": -11392,
+      "weekly_change": 12841,
+      "previous_report_date": "2026-08-25",
+      "gap_days": 7,
+      "age_days": 8,
+      "age_warning": false
+    },
+    {
+      "key": "Yen (6J vs USD)",
+      "instrument": "USD/JPY",
+      "label": "Yen · 6J/USD",
+      "category": "FX",
+      "source": "CFTC",
+      "dataset_id": "gpe5-46if",
+      "market_code": "097741",
+      "source_url": "https://publicreporting.cftc.gov/resource/gpe5-46if.json?$where=cftc_contract_market_code='097741'&$order=report_date_as_yyyy_mm_dd%20DESC&$limit=52",
+      "report_type": "TFF",
+      "report_scope": "FUTURES_ONLY",
+      "participant_category": "LEVERAGED_FUNDS",
+      "data_kind": "OBSERVED_CFTC",
+      "unit": "CONTRACTS",
+      "note": "Posiciones en yen frente a USD. La orientación es inversa al precio USD/JPY; el neto mostrado no se invierte.",
+      "published_at": null,
+      "fetched_at": null,
+      "status": "AVAILABLE",
+      "error": null,
+      "history": [
+        {
+          "date": "2025-09-09",
+          "net": 4586
+        },
+        {
+          "date": "2025-09-16",
+          "net": -200
+        },
+        {
+          "date": "2025-09-23",
+          "net": -4932
+        },
+        {
+          "date": "2025-09-30",
+          "net": -9420
+        },
+        {
+          "date": "2025-10-07",
+          "net": -13484
+        },
+        {
+          "date": "2025-10-14",
+          "net": -16963
+        },
+        {
+          "date": "2025-10-21",
+          "net": -19717
+        },
+        {
+          "date": "2025-10-28",
+          "net": -21638
+        },
+        {
+          "date": "2025-11-04",
+          "net": -22648
+        },
+        {
+          "date": "2025-11-11",
+          "net": -22707
+        },
+        {
+          "date": "2025-11-18",
+          "net": -21814
+        },
+        {
+          "date": "2025-11-25",
+          "net": -20002
+        },
+        {
+          "date": "2025-12-02",
+          "net": -17346
+        },
+        {
+          "date": "2025-12-09",
+          "net": -13950
+        },
+        {
+          "date": "2025-12-16",
+          "net": -9950
+        },
+        {
+          "date": "2025-12-23",
+          "net": -5505
+        },
+        {
+          "date": "2025-12-30",
+          "net": -794
+        },
+        {
+          "date": "2026-01-06",
+          "net": 3997
+        },
+        {
+          "date": "2026-01-13",
+          "net": 8676
+        },
+        {
+          "date": "2026-01-20",
+          "net": 13058
+        },
+        {
+          "date": "2026-01-27",
+          "net": 16967
+        },
+        {
+          "date": "2026-02-03",
+          "net": 20248
+        },
+        {
+          "date": "2026-02-10",
+          "net": 22768
+        },
+        {
+          "date": "2026-02-17",
+          "net": 24430
+        },
+        {
+          "date": "2026-02-24",
+          "net": 25165
+        },
+        {
+          "date": "2026-03-03",
+          "net": 24944
+        },
+        {
+          "date": "2026-03-10",
+          "net": 23777
+        },
+        {
+          "date": "2026-03-17",
+          "net": 21710
+        },
+        {
+          "date": "2026-03-24",
+          "net": 18825
+        },
+        {
+          "date": "2026-03-31",
+          "net": 15238
+        },
+        {
+          "date": "2026-04-07",
+          "net": 11090
+        },
+        {
+          "date": "2026-04-14",
+          "net": 6549
+        },
+        {
+          "date": "2026-04-21",
+          "net": 1794
+        },
+        {
+          "date": "2026-04-28",
+          "net": -2983
+        },
+        {
+          "date": "2026-05-05",
+          "net": -7595
+        },
+        {
+          "date": "2026-05-12",
+          "net": -11856
+        },
+        {
+          "date": "2026-05-19",
+          "net": -15596
+        },
+        {
+          "date": "2026-05-26",
+          "net": -18667
+        },
+        {
+          "date": "2026-06-02",
+          "net": -20946
+        },
+        {
+          "date": "2026-06-09",
+          "net": -22342
+        },
+        {
+          "date": "2026-06-16",
+          "net": -22799
+        },
+        {
+          "date": "2026-06-23",
+          "net": -22300
+        },
+        {
+          "date": "2026-06-30",
+          "net": -20863
+        },
+        {
+          "date": "2026-07-07",
+          "net": -18547
+        },
+        {
+          "date": "2026-07-14",
+          "net": -15444
+        },
+        {
+          "date": "2026-07-21",
+          "net": -11677
+        },
+        {
+          "date": "2026-07-28",
+          "net": -7397
+        },
+        {
+          "date": "2026-08-04",
+          "net": -2774
+        },
+        {
+          "date": "2026-08-11",
+          "net": 2006
+        },
+        {
+          "date": "2026-08-18",
+          "net": 6756
+        },
+        {
+          "date": "2026-08-25",
+          "net": 11284
+        },
+        {
+          "date": "2026-09-01",
+          "net": 15409
+        }
+      ],
+      "report_date": "2026-09-01",
+      "net": 15409,
+      "weekly_change": 4125,
+      "previous_report_date": "2026-08-25",
+      "gap_days": 7,
+      "age_days": 8,
+      "age_warning": false
+    },
+    {
+      "key": "Euro (6E vs USD)",
+      "instrument": "EUR/USD",
+      "label": "Euro · 6E/USD",
+      "category": "FX",
+      "source": "CFTC",
+      "dataset_id": "gpe5-46if",
+      "market_code": "099741",
+      "source_url": "https://publicreporting.cftc.gov/resource/gpe5-46if.json?$where=cftc_contract_market_code='099741'&$order=report_date_as_yyyy_mm_dd%20DESC&$limit=52",
+      "report_type": "TFF",
+      "report_scope": "FUTURES_ONLY",
+      "participant_category": "LEVERAGED_FUNDS",
+      "data_kind": "OBSERVED_CFTC",
+      "unit": "CONTRACTS",
+      "note": "Posiciones en euro frente a USD",
+      "published_at": null,
+      "fetched_at": null,
+      "status": "AVAILABLE",
+      "error": null,
+      "history": [
+        {
+          "date": "2025-09-09",
+          "net": -20563
+        },
+        {
+          "date": "2025-09-16",
+          "net": -23317
+        },
+        {
+          "date": "2025-09-23",
+          "net": -25238
+        },
+        {
+          "date": "2025-09-30",
+          "net": -26248
+        },
+        {
+          "date": "2025-10-07",
+          "net": -26307
+        },
+        {
+          "date": "2025-10-14",
+          "net": -25414
+        },
+        {
+          "date": "2025-10-21",
+          "net": -23602
+        },
+        {
+          "date": "2025-10-28",
+          "net": -20946
+        },
+        {
+          "date": "2025-11-04",
+          "net": -17550
+        },
+        {
+          "date": "2025-11-11",
+          "net": -13550
+        },
+        {
+          "date": "2025-11-18",
+          "net": -9105
+        },
+        {
+          "date": "2025-11-25",
+          "net": -4394
+        },
+        {
+          "date": "2025-12-02",
+          "net": 397
+        },
+        {
+          "date": "2025-12-09",
+          "net": 5076
+        },
+        {
+          "date": "2025-12-16",
+          "net": 9458
+        },
+        {
+          "date": "2025-12-23",
+          "net": 13367
+        },
+        {
+          "date": "2025-12-30",
+          "net": 16648
+        },
+        {
+          "date": "2026-01-06",
+          "net": 19168
+        },
+        {
+          "date": "2026-01-13",
+          "net": 20830
+        },
+        {
+          "date": "2026-01-20",
+          "net": 21565
+        },
+        {
+          "date": "2026-01-27",
+          "net": 21344
+        },
+        {
+          "date": "2026-02-03",
+          "net": 20177
+        },
+        {
+          "date": "2026-02-10",
+          "net": 18110
+        },
+        {
+          "date": "2026-02-17",
+          "net": 15225
+        },
+        {
+          "date": "2026-02-24",
+          "net": 11638
+        },
+        {
+          "date": "2026-03-03",
+          "net": 7490
+        },
+        {
+          "date": "2026-03-10",
+          "net": 2949
+        },
+        {
+          "date": "2026-03-17",
+          "net": -1805
+        },
+        {
+          "date": "2026-03-24",
+          "net": -6583
+        },
+        {
+          "date": "2026-03-31",
+          "net": -11195
+        },
+        {
+          "date": "2026-04-07",
+          "net": -15456
+        },
+        {
+          "date": "2026-04-14",
+          "net": -19196
+        },
+        {
+          "date": "2026-04-21",
+          "net": -22267
+        },
+        {
+          "date": "2026-04-28",
+          "net": -24546
+        },
+        {
+          "date": "2026-05-05",
+          "net": -25942
+        },
+        {
+          "date": "2026-05-12",
+          "net": -26399
+        },
+        {
+          "date": "2026-05-19",
+          "net": -25900
+        },
+        {
+          "date": "2026-05-26",
+          "net": -24463
+        },
+        {
+          "date": "2026-06-02",
+          "net": -22147
+        },
+        {
+          "date": "2026-06-09",
+          "net": -19044
+        },
+        {
+          "date": "2026-06-16",
+          "net": -15277
+        },
+        {
+          "date": "2026-06-23",
+          "net": -10997
+        },
+        {
+          "date": "2026-06-30",
+          "net": -6374
+        },
+        {
+          "date": "2026-07-07",
+          "net": -1593
+        },
+        {
+          "date": "2026-07-14",
+          "net": 3156
+        },
+        {
+          "date": "2026-07-21",
+          "net": 7684
+        },
+        {
+          "date": "2026-07-28",
+          "net": 11809
+        },
+        {
+          "date": "2026-08-04",
+          "net": 15369
+        },
+        {
+          "date": "2026-08-11",
+          "net": 18219
+        },
+        {
+          "date": "2026-08-18",
+          "net": 20248
+        },
+        {
+          "date": "2026-08-25",
+          "net": 21374
+        },
+        {
+          "date": "2026-09-01",
+          "net": 21552
+        }
+      ],
+      "report_date": "2026-09-01",
+      "net": 21552,
+      "weekly_change": 178,
+      "previous_report_date": "2026-08-25",
+      "gap_days": 7,
+      "age_days": 8,
+      "age_warning": false
+    },
+    {
+      "key": "Bitcoin (CME)",
+      "instrument": "BTC",
+      "label": "Bitcoin · CME",
+      "category": "CRYPTO",
+      "source": "CFTC",
+      "dataset_id": "gpe5-46if",
+      "market_code": "133741",
+      "source_url": "https://publicreporting.cftc.gov/resource/gpe5-46if.json?$where=cftc_contract_market_code='133741'&$order=report_date_as_yyyy_mm_dd%20DESC&$limit=52",
+      "report_type": "TFF",
+      "report_scope": "FUTURES_ONLY",
+      "participant_category": "LEVERAGED_FUNDS",
+      "data_kind": "OBSERVED_CFTC",
+      "unit": "CONTRACTS",
+      "note": "Futuros CME; distintos del spot y de los perpetuos Binance",
+      "published_at": null,
+      "fetched_at": null,
+      "status": "AVAILABLE",
+      "error": null,
+      "history": [
+        {
+          "date": "2025-09-09",
+          "net": -29014
+        },
+        {
+          "date": "2025-09-16",
+          "net": -27202
+        },
+        {
+          "date": "2025-09-23",
+          "net": -24546
+        },
+        {
+          "date": "2025-09-30",
+          "net": -21150
+        },
+        {
+          "date": "2025-10-07",
+          "net": -17150
+        },
+        {
+          "date": "2025-10-14",
+          "net": -12705
+        },
+        {
+          "date": "2025-10-21",
+          "net": -7994
+        },
+        {
+          "date": "2025-10-28",
+          "net": -3202
+        },
+        {
+          "date": "2025-11-04",
+          "net": 1476
+        },
+        {
+          "date": "2025-11-11",
+          "net": 5858
+        },
+        {
+          "date": "2025-11-18",
+          "net": 9767
+        },
+        {
+          "date": "2025-11-25",
+          "net": 13048
+        },
+        {
+          "date": "2025-12-02",
+          "net": 15568
+        },
+        {
+          "date": "2025-12-09",
+          "net": 17230
+        },
+        {
+          "date": "2025-12-16",
+          "net": 17965
+        },
+        {
+          "date": "2025-12-23",
+          "net": 17744
+        },
+        {
+          "date": "2025-12-30",
+          "net": 16577
+        },
+        {
+          "date": "2026-01-06",
+          "net": 14510
+        },
+        {
+          "date": "2026-01-13",
+          "net": 11625
+        },
+        {
+          "date": "2026-01-20",
+          "net": 8038
+        },
+        {
+          "date": "2026-01-27",
+          "net": 3890
+        },
+        {
+          "date": "2026-02-03",
+          "net": -650
+        },
+        {
+          "date": "2026-02-10",
+          "net": -5405
+        },
+        {
+          "date": "2026-02-17",
+          "net": -10183
+        },
+        {
+          "date": "2026-02-24",
+          "net": -14795
+        },
+        {
+          "date": "2026-03-03",
+          "net": -19056
+        },
+        {
+          "date": "2026-03-10",
+          "net": -22796
+        },
+        {
+          "date": "2026-03-17",
+          "net": -25867
+        },
+        {
+          "date": "2026-03-24",
+          "net": -28146
+        },
+        {
+          "date": "2026-03-31",
+          "net": -29542
+        },
+        {
+          "date": "2026-04-07",
+          "net": -29999
+        },
+        {
+          "date": "2026-04-14",
+          "net": -29500
+        },
+        {
+          "date": "2026-04-21",
+          "net": -28063
+        },
+        {
+          "date": "2026-04-28",
+          "net": -25747
+        },
+        {
+          "date": "2026-05-05",
+          "net": -22644
+        },
+        {
+          "date": "2026-05-12",
+          "net": -18877
+        },
+        {
+          "date": "2026-05-19",
+          "net": -14597
+        },
+        {
+          "date": "2026-05-26",
+          "net": -9974
+        },
+        {
+          "date": "2026-06-02",
+          "net": -5193
+        },
+        {
+          "date": "2026-06-09",
+          "net": -443
+        },
+        {
+          "date": "2026-06-16",
+          "net": 4084
+        },
+        {
+          "date": "2026-06-23",
+          "net": 8209
+        },
+        {
+          "date": "2026-06-30",
+          "net": 11769
+        },
+        {
+          "date": "2026-07-07",
+          "net": 14619
+        },
+        {
+          "date": "2026-07-14",
+          "net": 16648
+        },
+        {
+          "date": "2026-07-21",
+          "net": 17774
+        },
+        {
+          "date": "2026-07-28",
+          "net": 17952
+        },
+        {
+          "date": "2026-08-04",
+          "net": 17175
+        },
+        {
+          "date": "2026-08-11",
+          "net": 15474
+        },
+        {
+          "date": "2026-08-18",
+          "net": 12918
+        },
+        {
+          "date": "2026-08-25",
+          "net": 9606
+        },
+        {
+          "date": "2026-09-01",
+          "net": 5673
+        }
+      ],
+      "report_date": "2026-09-01",
+      "net": 5673,
+      "weekly_change": -3933,
+      "previous_report_date": "2026-08-25",
+      "gap_days": 7,
+      "age_days": 8,
+      "age_warning": false
+    }
+  ],
+  "history_limit": 52,
+  "_fixture_note": "Synthetic data for offline UI tests; not observed CFTC data."
+}

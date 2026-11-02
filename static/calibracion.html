@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiabilidad del agente · Market Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fondo:#0b0e13; --panel:#11151d; --borde:#1d2430;
+  --texto:#d6dce6; --tenue:#67728a;
+  --ambar:#fbbf24; --ok:#34d399; --fallo:#f87171;
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--fondo);color:var(--texto);font-family:var(--display);
+  font-size:15px;line-height:1.55;padding:28px clamp(16px,4vw,48px) 70px}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--ambar)}
+main{max-width:940px;margin:0 auto}
+
+header{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;
+  padding-bottom:14px;border-bottom:1px solid var(--borde)}
+h1{font-size:24px;font-weight:700;letter-spacing:-0.5px}
+h1 span{color:var(--ambar)}
+#volver{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--tenue)}
+
+h2{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--tenue);margin:28px 0 12px}
+.panel{background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:22px}
+
+/* ── Veredicto ── */
+#veredicto{border-width:1px;border-style:solid;border-radius:14px;padding:24px;
+  background:var(--panel)}
+#veredicto.malo,#veredicto.flojo{border-color:#f8717155}
+#veredicto.aceptable{border-color:#fbbf2455}
+#veredicto.bueno{border-color:#34d39955}
+#veredicto.sin-datos{border-color:var(--borde)}
+#titular{font-size:30px;font-weight:700;letter-spacing:-0.8px;line-height:1.15}
+.malo #titular,.flojo #titular{color:var(--fallo)}
+.aceptable #titular{color:var(--ambar)}
+.bueno #titular{color:var(--ok)}
+.sin-datos #titular{color:var(--tenue)}
+#explicacion{margin-top:10px;font-size:15px;color:#b7bfcf;max-width:62ch}
+#cifras{display:flex;flex-wrap:wrap;gap:26px;margin-top:22px;padding-top:18px;
+  border-top:1px solid var(--borde)}
+.cifra{min-width:130px}
+.cifra .valor{font-family:var(--mono);font-size:21px;font-weight:600}
+.cifra .etiq{font-family:var(--mono);font-size:10.5px;color:var(--tenue);
+  text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.cifra .pie{font-size:12px;color:var(--tenue);margin-top:4px}
+
+/* ── Traducción ── */
+#traduccion{display:grid;gap:12px}
+.tramo{display:flex;align-items:center;gap:16px;background:var(--panel);
+  border:1px solid var(--borde);border-radius:12px;padding:15px 18px}
+.tramo .dice{font-family:var(--mono);font-size:13px;color:var(--tenue);flex:none;width:96px}
+.tramo .flecha{font-family:var(--mono);color:var(--borde);flex:none}
+.tramo .cuenta{font-family:var(--mono);font-size:20px;font-weight:600;flex:none;width:78px}
+.tramo .lectura{font-size:13.5px;color:#b7bfcf;flex:1}
+.tramo .n{font-family:var(--mono);font-size:11px;color:var(--tenue);flex:none}
+.tramo.fiable .cuenta{color:var(--ok)}
+.tramo.desviado .cuenta{color:var(--fallo)}
+.tramo.corto{opacity:.55}
+.tramo.corto .cuenta{color:var(--tenue)}
+
+/* ── Curva ── */
+#curva{display:block;width:100%;height:auto}
+.leyenda{font-family:var(--mono);font-size:11px;color:var(--tenue);margin-top:10px}
+
+/* ── Historial ── */
+#historial{display:grid;gap:9px}
+.res{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:#9aa4b6;
+  padding-bottom:9px;border-bottom:1px solid var(--borde)}
+.res:last-child{border-bottom:none}
+.res .marca{flex:none;font-family:var(--mono)}
+.res .marca.si{color:var(--ok)} .res .marca.no{color:var(--fallo)}
+.res .datos{font-family:var(--mono);font-size:10.5px;color:var(--tenue);margin-top:3px}
+.vacio{color:var(--tenue)}
+.tipo{background:var(--panel);border:1px solid var(--borde);border-radius:12px;
+  padding:15px 18px;display:flex;align-items:center;gap:16px}
+.tipo .nombre{font-weight:500;flex:none;width:150px}
+.tipo .barra{flex:1;height:8px;background:#1d2430;border-radius:4px;position:relative}
+.tipo .barra .dec{position:absolute;top:0;bottom:0;left:0;background:#5b6b8a;border-radius:4px}
+.tipo .barra .obs{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ambar)}
+.tipo .cifras{font-family:var(--mono);font-size:11px;color:var(--tenue);flex:none;width:190px;text-align:right}
+.tipo.bien .nombre{color:var(--ok)} .tipo.infla .nombre{color:var(--fallo)}
+#por-tipo{display:grid;gap:12px}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Fiabilidad del <span>agente</span></h1>
+    <a id="volver" href="/">← volver al dashboard</a>
+  </header>
+
+  <label>Dataset: <select id="dataset">
+    <option value="schema_version=2&specification_source=original">v2 original</option>
+    <option value="schema_version=2&resuelto_por=automatico&specification_source=original">v2 automático</option>
+    <option value="resuelto_por=manual">Revisión manual</option>
+    <option value="schema_version=1">Legacy v1</option>
+    <option value="">Todos (incluye legacy)</option>
+  </select></label>
+  <div id="veredicto" class="sin-datos">
+    <div id="titular">Cargando…</div>
+    <div id="explicacion"></div>
+    <div id="cifras"></div>
+  </div>
+
+  <h2>Cómo leer sus probabilidades</h2>
+  <div id="traduccion"><p class="vacio">—</p></div>
+
+  <h2>Por tipo de predicción</h2>
+  <div id="por-tipo"><p class="vacio">—</p></div>
+
+  <h2>Curva de calibración</h2>
+  <div class="panel">
+    <svg id="curva" viewBox="0 0 420 300" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="leyenda">La diagonal es la calibración perfecta. Cada punto es un tramo
+      (tamaño = número de predicciones). Por debajo de la línea = promete más de lo que ocurre.</div>
+  </div>
+
+  <h2 id="revision">Revisión manual</h2>
+  <p>El resultado describe qué ocurrió: 1 ocurrió, 0 no ocurrió. No mide si el agente acertó.
+    Brier = (probabilidad − resultado)². NO RESOLUBLE deja el resultado sin puntuar.</p>
+  <div id="cola-manual" class="panel"></div>
+  <h2>Errores de datos</h2>
+  <p>Son fallos técnicos pendientes de reintento automático.</p>
+  <div id="errores-datos" class="panel"></div>
+  <h2>Historial de resueltas</h2>
+  <div class="panel"><div id="historial"><p class="vacio">—</p></div></div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const pct = x => `${Math.round(x * 100)}%`;
+const fecha = iso => iso ? new Date(iso).toLocaleDateString("es-ES",
+  {day:"2-digit", month:"short"}) : "—";
+
+function el(tag, clase, texto){
+  const e = document.createElement(tag);
+  if (clase) e.className = clase;
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+
+const TITULARES = {
+  "sin-datos": "Sin veredicto",
+  "malo": "No fiable",
+  "flojo": "Fiabilidad floja",
+  "aceptable": "Fiabilidad aceptable",
+  "bueno": "Fiabilidad buena",
+};
+
+function pintarVeredicto(d){
+  const caja = $("veredicto");
+  caja.className = d.nivel;
+  $("titular").textContent = TITULARES[d.nivel] || "Sin veredicto";
+  $("explicacion").textContent = d.veredicto;
+
+  const cifras = $("cifras"); cifras.replaceChildren();
+  if (!d.n){ return; }
+
+  const bloques = [
+    {valor: d.habilidad > 0 ? `+${d.habilidad}%` : `${d.habilidad}%`,
+     etiq: "habilidad real",
+     pie: "cuánto mejora frente a acertar siempre la tasa base"},
+    {valor: d.brier, etiq: "Brier medio",
+     pie: `referente honesto ${d.brier_base} · más bajo es mejor`},
+    {valor: (d.sesgo > 0 ? "+" : "") + d.sesgo, etiq: "sesgo",
+     pie: d.sesgo > 0.05 ? "promete más de lo que ocurre"
+          : (d.sesgo < -0.05 ? "se queda corto" : "sin sesgo apreciable")},
+    {valor: d.n, etiq: "resueltas", pie: `el evento ocurrió el ${pct(d.tasa_acierto)} de las veces`},
+  ];
+  for (const b of bloques){
+    const c = el("div","cifra");
+    c.append(el("div","valor", String(b.valor)), el("div","etiq", b.etiq), el("div","pie", b.pie));
+    cifras.append(c);
+  }
+}
+
+function pintarTraduccion(d){
+  const caja = $("traduccion"); caja.replaceChildren();
+  if (!(d.traduccion || []).length){
+    caja.append(el("p","vacio","Aún no hay tramos con datos."));
+    return;
+  }
+  for (const t of d.traduccion){
+    const corto = t.n < 8;
+    const fiable = !corto && Math.abs(t.desvio) < 0.08;
+    const fila = el("div","tramo " + (corto ? "corto" : (fiable ? "fiable" : "desviado")));
+    fila.append(el("div","dice", `dice ${t.tramo}`),
+                el("div","flecha","→"),
+                el("div","cuenta", pct(t.observada)),
+                el("div","lectura", t.lectura),
+                el("div","n", `n=${t.n}`));
+    caja.append(fila);
+  }
+}
+
+const ETIQ_TIPO = {evento:"Eventos discretos", nivel:"Niveles de precio",
+  continuidad:"Continuidad", otro:"Otros"};
+
+function pintarPorTipo(d){
+  const caja = $("por-tipo"); caja.replaceChildren();
+  const tipos = d.por_tipo || {};
+  const claves = Object.keys(tipos);
+  if (!claves.length){
+    caja.append(el("p","vacio","Aún no hay tipos con muestra suficiente (mínimo 5 por tipo)."));
+    return;
+  }
+  for (const k of claves){
+    const t = tipos[k];
+    const infla = t.sesgo >= 0.1, bien = Math.abs(t.sesgo) < 0.1;
+    const fila = el("div","tipo " + (infla ? "infla" : (bien ? "bien" : "")));
+    fila.append(el("div","nombre", ETIQ_TIPO[k] || k));
+    const barra = el("div","barra");
+    const dec = el("div","dec"); dec.style.width = pct(t.declarada);
+    const obs = el("div","obs"); obs.style.left = pct(t.observada);
+    obs.title = "ocurrió " + pct(t.observada);
+    barra.append(dec, obs);
+    fila.append(barra, el("div","cifras",
+      `declaró ${pct(t.declarada)} · ocurrió ${pct(t.observada)} · n=${t.n}`));
+    caja.append(fila);
+  }
+}
+
+function pintarCurva(d){
+  const svg = $("curva");
+  const NS = "http://www.w3.org/2000/svg";
+  const L = 55, R = 400, T = 20, B = 250;   // marco del gráfico
+  const x = p => L + p * (R - L);
+  const y = p => B - p * (B - T);
+  svg.replaceChildren();
+
+  const crear = (tag, attrs) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  };
+
+  // rejilla y ejes
+  for (let v = 0; v <= 1.0001; v += 0.25){
+    svg.append(crear("line", {x1:L, y1:y(v), x2:R, y2:y(v), stroke:"#1d2430"}));
+    const et = crear("text", {x:L-10, y:y(v)+4, fill:"#67728a", "font-size":"10",
+      "text-anchor":"end", "font-family":"JetBrains Mono, monospace"});
+    et.textContent = pct(v);
+    svg.append(et);
+    const eb = crear("text", {x:x(v), y:B+18, fill:"#67728a", "font-size":"10",
+      "text-anchor":"middle", "font-family":"JetBrains Mono, monospace"});
+    eb.textContent = pct(v);
+    svg.append(eb);
+  }
+  const ejeY = crear("text", {x:14, y:(T+B)/2, fill:"#67728a", "font-size":"10",
+    "text-anchor":"middle", "font-family":"JetBrains Mono, monospace",
+    transform:`rotate(-90 14 ${(T+B)/2})`});
+  ejeY.textContent = "lo que ocurrió";
+  svg.append(ejeY);
+  const ejeX = crear("text", {x:(L+R)/2, y:B+40, fill:"#67728a", "font-size":"10",
+    "text-anchor":"middle", "font-family":"JetBrains Mono, monospace"});
+  ejeX.textContent = "lo que declaró";
+  svg.append(ejeX);
+
+  // diagonal perfecta
+  svg.append(crear("line", {x1:x(0), y1:y(0), x2:x(1), y2:y(1),
+    stroke:"#fbbf24", "stroke-opacity":"0.45", "stroke-dasharray":"5 4"}));
+
+  const puntos = (d.traduccion || []);
+  // línea que une los tramos
+  if (puntos.length > 1){
+    const pts = puntos.map(t => `${x(t.declarada)},${y(t.observada)}`).join(" ");
+    svg.append(crear("polyline", {points:pts, fill:"none", stroke:"#67728a", "stroke-width":"1.3"}));
+  }
+  for (const t of puntos){
+    const r = Math.max(4, Math.min(11, 3 + Math.sqrt(t.n) * 1.5));
+    const color = t.n < 8 ? "#67728a" : (Math.abs(t.desvio) < 0.08 ? "#34d399" : "#f87171");
+    const c = crear("circle", {cx:x(t.declarada), cy:y(t.observada), r:r,
+      fill:color, "fill-opacity":"0.85"});
+    const tip = crear("title");
+    tip.textContent = `${t.tramo}: declaró ${t.declarada}, ocurrió ${t.observada} (n=${t.n})`;
+    c.append(tip);
+    svg.append(c);
+  }
+}
+
+function pintarHistorial(lista){
+  const caja = $("historial"); caja.replaceChildren();
+  if (!lista.length){ caja.append(el("p","vacio","Todavía no hay predicciones resueltas.")); return; }
+  for (const p of lista){
+    const fila = el("div","res");
+    fila.append(el("span","marca " + (p.resultado ? "si" : "no"), p.resultado ? "✓" : "✗"));
+    const cuerpo = el("div","");
+    cuerpo.append(el("div","", p.afirmacion));
+    const quien = p.resuelto_por || "legacy";
+    cuerpo.append(el("div","datos",
+      `dijo ${pct(p.probabilidad)} · ${p.resultado ? "ocurrió" : "no ocurrió"} · Brier ${p.brier}` +
+      ` · resuelta por ${quien} el ${fecha(p.resuelto)}`));
+    const justif = (p.nota || "").replace(/^\[[^\]]+\]\s*/, "");
+    if (justif) cuerpo.append(el("div","datos", justif));
+    fila.append(cuerpo);
+    caja.append(fila);
+  }
+}
+
+function pintarRevision(datos) {
+  for (const [estado, id] of [["NEEDS_REVIEW", "cola-manual"], ["DATA_ERROR", "errores-datos"]]) {
+    const caja = $(id); caja.replaceChildren();
+    for (const p of datos[estado] || []) {
+      const fila = el("div", "res");
+      const cuerpo = el("div", "");
+      cuerpo.append(el("p", "", `#${p.id} · ${p.afirmacion}`));
+      cuerpo.append(el("p", "datos", `v${p.schema_version} · ${p.modo || "sin modo"} · ${p.fecha_limite || p.horizonte}`));
+      if (estado === "NEEDS_REVIEW") {
+        if (p.resuelto_por === "manual") cuerpo.append(el("p", "", "Marcada NO RESOLUBLE. Puede revisarse con nueva evidencia."));
+        const fuente = el("input", ""); fuente.placeholder = "Fuente y justificación verificable";
+        fuente.setAttribute("aria-label", "Fuente y justificación verificable");
+        const fecha = el("input", ""); fecha.type = "date"; fecha.setAttribute("aria-label", "Fecha real del hecho");
+        const aviso = el("p", ""); aviso.setAttribute("role", "status");
+        cuerpo.append(fuente, fecha);
+        for (const [label, resultado] of [["OCURRIÓ", 1], ["NO OCURRIÓ", 0], ["NO RESOLUBLE", null]]) {
+          const boton = el("button", "", label);
+          boton.onclick = async () => {
+            if (!fuente.value.trim() || (resultado !== null && !fecha.value)) {
+              aviso.textContent = "Indica la fuente y, si hay resultado, la fecha real del hecho."; return;
+            }
+            boton.disabled = true;
+            try {
+              const r = await fetch(`/api/predicciones/${p.id}/resolver`, {method: "POST",
+                headers: {"Content-Type": "application/json"}, body: JSON.stringify({resultado,
+                  fuente_resolucion: fuente.value.trim(), fecha_resolucion: fecha.value || null})});
+              const d = await r.json();
+              if (!r.ok) throw new Error(d.detail || "No se pudo guardar");
+              await cargar();
+            } catch(e) { aviso.textContent = e.message; }
+            finally { boton.disabled = false; }
+          };
+          cuerpo.append(boton);
+        }
+        cuerpo.append(aviso);
+      } else { cuerpo.append(el("p", "datos", p.fuente_resolucion || "Sin serie utilizable")); }
+      fila.append(cuerpo); caja.append(fila);
+    }
+    if (!caja.children.length) caja.append(el("p", "vacio", "Sin pendientes"));
+  }
+}
+
+async function cargar(){
+  let cal, pred, revision;
+  const query = $("dataset").value;
+  try{
+    [cal, pred, revision] = await Promise.all([
+      fetch("/api/calibracion?" + query).then(r => r.json()),
+      fetch("/api/predicciones?" + query).then(r => r.json()),
+      fetch("/api/predicciones/revision").then(r => r.json()),
+    ]);
+  }catch(e){
+    $("titular").textContent = "Sin conexión con el servidor";
+    $("explicacion").textContent = "El dashboard no responde. ¿Está corriendo uvicorn?";
+    console.error("fallo al pedir los datos:", e);
+    return;
+  }
+  // Cada bloque falla por su cuenta: un error de pintado no borra el veredicto.
+  const bloques = [
+    ["veredicto", () => pintarVeredicto(cal)],
+    ["traducción", () => pintarTraduccion(cal)],
+    ["por-tipo", () => pintarPorTipo(cal)],
+    ["curva", () => pintarCurva(cal)],
+    ["historial", () => pintarHistorial(pred.resueltas || [])],
+    ["revision", () => pintarRevision(revision)],
+  ];
+  for (const [nombre, pintar] of bloques){
+    try{ pintar(); }
+    catch(e){ console.error(`fallo al pintar ${nombre}:`, e); }
+  }
+}
+$("dataset").onchange = cargar;
+cargar();
+</script>
+</body>
+</html>

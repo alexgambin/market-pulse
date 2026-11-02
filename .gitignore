@@ -1,0 +1,54 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+telegram_chat_id.json
+
+# Databases and backups (private trading history)
+*.db
+*.db.*
+*.sqlite
+*.sqlite3
+*.backup*
+*.bak*
+backups/
+
+# Books and ebooks (copyright)
+*.pdf
+*.epub
+*.mobi
+*.djvu
+*.azw*
+libros/
+
+# Personal notes and internal reports
+tarea-x.md
+INFORME_RESULTADOS_*.txt
+
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+
+# Archives
+*.zip
+
+# Local tooling and OS
+.claude/
+.vscode/
+.idea/
+.DS_Store

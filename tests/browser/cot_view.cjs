@@ -1,0 +1,61 @@
+// Offline browser regression: all requests are intercepted; no backend or AI calls.
+const {chromium}=require('playwright');
+const fs=require('fs');
+const path=require('path');
+const os=require('os');
+const root=path.resolve(__dirname,'../..');
+const artifacts=fs.mkdtempSync(path.join(os.tmpdir(),'mp-cot-ui-'));
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? {executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE} : {channel:'chrome'}),headless:true});
+ const page=await browser.newPage({viewport:{width:1280,height:1000}});
+ const fixture=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/cot_overview.json'),'utf8'));
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ let mode='valid',requests=0;
+ await page.route('**/*',async route=>{
+  const u=new URL(route.request().url());
+  if(u.hostname!=='mp.test')return route.abort();
+  if(u.pathname==='/api/cot/overview'){
+   requests++;
+   if(mode==='error')return route.fulfill({status:503,body:'unavailable'});
+   const d=structuredClone(fixture);
+   if(mode==='empty')for(const i of d.items)Object.assign(i,{status:'UNAVAILABLE',history:[],net:null,weekly_change:null,age_days:null,report_date:null});
+   return route.fulfill({json:d});
+  }
+  if(u.pathname==='/api/estado')return route.fulfill({json:{ultima_pasada:null}});
+  const paths={'/':'static/mercados.html','/static/positioning.js':'static/positioning.js','/static/positioning.css':'static/positioning.css'};
+  const p=paths[u.pathname];
+  if(!p)return route.fulfill({json:{}});
+  return route.fulfill({body:fs.readFileSync(path.join(root,p)),contentType:p.endsWith('.js')?'application/javascript':p.endsWith('.css')?'text/css':'text/html'});
+ });
+ await page.goto('http://mp.test/#positioning');
+ await page.locator('#positioning-rows tr').last().waitFor();
+ assert.equal(await page.locator('#positioning-rows tr').count(),6);
+ assert.equal(await page.locator('#positioning-chart rect').count(),52);
+ assert.match(await page.locator('#positioning-status').innerText(),/6 de 6/);
+ await page.screenshot({path:path.join(artifacts,'desktop.png'),fullPage:true,animations:'disabled'});
+ await page.getByRole('button',{name:'13 informes',exact:true}).click();
+ assert.equal(await page.locator('#positioning-chart rect').count(),13);
+ await page.getByRole('button',{name:'FX',exact:true}).click();
+ assert.equal(await page.locator('#positioning-rows tr').count(),2);
+ await page.getByRole('button',{name:'Yen · 6J/USD',exact:true}).click();
+ assert.match(await page.locator('#positioning-family').innerText(),/TFF.*Leveraged Funds/i);
+ assert.match(await page.locator('#positioning-note').innerText(),/no se invierte/);
+ assert.equal(requests,1,'Filters and ranges must not fetch again');
+ mode='error';await page.getByRole('button',{name:'Actualizar vista',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#positioning-status').textContent.includes('No se pudo actualizar'));
+ assert.equal(await page.locator('#positioning-chart rect').count(),13);
+ mode='empty';await page.getByRole('button',{name:'Actualizar vista',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#positioning-status').textContent.includes('no ha devuelto'));
+ assert.equal(await page.locator('#positioning-chart rect').count(),0);
+ assert.match(await page.locator('#positioning-chart').innerText(),/ausencia de datos no indica/);
+ mode='valid';await page.getByRole('button',{name:'Actualizar vista',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#positioning-status').textContent.includes('6 de 6'));
+ await page.setViewportSize({width:390,height:844});
+ await page.screenshot({path:path.join(artifacts,'mobile.png'),fullPage:true,animations:'disabled'});
+ const overflow=await page.evaluate(()=>({body:document.body.scrollWidth,viewport:innerWidth}));
+ assert.equal(overflow.body<=overflow.viewport,true,JSON.stringify(overflow));
+ assert.deepEqual(errors,[]);
+ console.log(JSON.stringify({passed:true,artifacts,checks:['6 series','chart/ranges','FX filter/orientation','no refetch on filters','HTTP error preserves previous view','unavailable not neutral','mobile layout','no JS errors'],requests}));
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});

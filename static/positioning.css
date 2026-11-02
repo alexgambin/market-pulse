@@ -1,0 +1,46 @@
+.positioning-entry{display:block;border:1px solid var(--linea);border-top:3px solid var(--oro);padding:18px;margin-bottom:28px;background:#fff8}
+.positioning-entry strong{display:block;font:500 21px/1.3 var(--serif);margin:10px 0}
+.positioning-entry>span:last-child{font:11px/1.6 var(--mono);color:var(--pluma)}
+.positioning-entry:hover{border-color:var(--oro)}
+.positioning-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.positioning-toolbar .gr-sel{margin:0}
+.positioning-button{font:11px var(--mono);background:transparent;border:1px solid var(--linea);border-radius:7px;padding:9px 12px;color:var(--grafito);cursor:pointer}
+.positioning-button:hover{border-color:var(--tinta)}
+.positioning-button:disabled{opacity:.5;cursor:wait}
+[data-vista="positioning"] button:focus-visible,.positioning-entry:focus-visible,[data-vista="positioning"] a:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
+.positioning-status{font:12px/1.6 var(--mono);color:var(--pluma);margin:20px 0 12px;min-height:20px}
+.positioning-status.error{color:var(--down)}
+.positioning-table-wrap{overflow-x:auto;border-top:1px solid var(--tinta)}
+.positioning-table{width:100%;border-collapse:collapse;font-size:12px}
+.positioning-table th{text-align:left;font:10px var(--mono);color:var(--tenue);padding:14px 12px 14px 0;white-space:nowrap;border-bottom:1px solid var(--linea)}
+.positioning-table td{padding:16px 12px 16px 0;border-bottom:1px solid var(--linea2);vertical-align:middle}
+.positioning-table td:nth-child(3),.positioning-table td:nth-child(4){font:12px var(--mono);white-space:nowrap;text-align:right}
+.positioning-table th:nth-child(3),.positioning-table th:nth-child(4){text-align:right}
+.positioning-table tr.selected{background:#c9a94e12}
+.positioning-asset{font:500 15px var(--serif);background:none;border:0;padding:5px 0;color:var(--tinta);cursor:pointer;text-align:left;min-width:100px}
+.positioning-asset:hover{text-decoration:underline;text-underline-offset:4px}
+.positioning-participant{display:block;font-size:10px;color:var(--pluma);white-space:nowrap}
+.positioning-date{white-space:nowrap;font:11px var(--mono)}
+.positioning-age{font:10px/1.4 var(--mono);display:inline-block;color:var(--pluma)}
+.positioning-age.warning{color:#985224}
+.positioning-footnote{font:11px/1.7 var(--mono);color:var(--pluma);margin-top:16px;max-width:84ch}
+.positioning-detail{margin-top:36px;border-top:1px solid var(--tinta);padding-top:25px}
+.positioning-detail-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.positioning-detail-heading h3{font:500 30px var(--serif);margin-top:6px;letter-spacing:-.6px}
+.positioning-detail-heading a{font:11px var(--mono);color:var(--pluma);white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
+.positioning-note{font-size:12px;color:var(--pluma);margin:12px 0 20px;max-width:75ch}
+.positioning-values{display:flex;flex-wrap:wrap;gap:26px;margin:22px 0}
+.positioning-value strong{display:block;font:500 23px var(--mono)}
+.positioning-value span{font:10px var(--mono);color:var(--tenue);text-transform:uppercase;letter-spacing:.6px}
+.positioning-readout{font:12px var(--mono);min-height:20px;color:var(--grafito);margin:10px 0}
+.positioning-chart svg{width:100%;height:auto;display:block;overflow:visible}
+.positioning-chart .cot-point:focus{outline:2px solid var(--tinta)}
+.positioning-chart .cot-point:hover{opacity:.7}
+.positioning-chart .positioning-empty{padding:40px 0;border-block:1px solid var(--linea);font-size:13px;color:var(--pluma)}
+.positioning-history{margin:18px 0 28px;font:12px var(--mono);color:var(--pluma)}
+.positioning-history summary{cursor:pointer;padding:8px 0}
+#positioning-history{max-height:250px;overflow:auto}
+.positioning-history table{width:100%;border-collapse:collapse}
+.positioning-history td,.positioning-history th{text-align:left;padding:7px;border-bottom:1px solid var(--linea2)}
+.positioning-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(max-width:600px){.positioning-detail-heading{align-items:flex-start}.positioning-detail-heading h3{font-size:26px}.positioning-values{gap:20px}.positioning-table{min-width:690px}.positioning-entry{margin-top:20px}}

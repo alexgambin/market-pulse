@@ -1,0 +1,251 @@
+[
+  {
+    "name": "listar_hilos",
+    "description": "Lista todos los hilos narrativos existentes con relevancia y resumen del estado.",
+    "input_schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "leer_hilo",
+    "description": "Lee el estado completo de un hilo y sus últimos enlaces.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "hilo_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "hilo_id"
+      ]
+    }
+  },
+  {
+    "name": "crear_hilo",
+    "description": "Crea un hilo narrativo nuevo. Úsalo solo si ningún hilo existente encaja.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "nombre": {
+          "type": "string",
+          "description": "Corto y estable, p. ej. 'Ormuz / prima de riesgo del crudo'"
+        },
+        "estado": {
+          "type": "string",
+          "description": "Síntesis inicial: qué sabemos y qué vigilar"
+        },
+        "relevancia": {
+          "type": "integer",
+          "description": "1-5 (5 = crítico para las posiciones)"
+        }
+      },
+      "required": [
+        "nombre",
+        "estado"
+      ]
+    }
+  },
+  {
+    "name": "actualizar_hilo",
+    "description": "Reescribe el estado de un hilo (síntesis completa, no un añadido).",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "hilo_id": {
+          "type": "integer"
+        },
+        "estado": {
+          "type": "string"
+        },
+        "relevancia": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "hilo_id",
+        "estado"
+      ]
+    }
+  },
+  {
+    "name": "tasa_base",
+    "description": "Frecuencia histórica de un tipo de movimiento (yfinance, ~3 años). Consúltala ANTES de poner una probabilidad, para anclarla en cuántas veces ha pasado de verdad y no en la intensidad de la noticia.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "instrumento": {
+          "type": "string",
+          "description": "WTI, Brent, USD/JPY, EUR/USD, Oro, S&P 500, DXY, VIX…"
+        },
+        "direccion": {
+          "type": "string",
+          "enum": [
+            "sube",
+            "baja",
+            "mueve"
+          ],
+          "description": "'mueve' = en cualquier dirección"
+        },
+        "umbral_pct": {
+          "type": "number",
+          "description": "Magnitud en % (p. ej. 4 = movimiento de 4%)"
+        },
+        "ventana": {
+          "type": "string",
+          "enum": [
+            "1d",
+            "3d",
+            "5d",
+            "10d",
+            "20d",
+            "30d",
+            "60d",
+            "90d",
+            "180d",
+            "365d"
+          ]
+        }
+      },
+      "required": [
+        "instrumento",
+        "direccion",
+        "umbral_pct",
+        "ventana"
+      ]
+    }
+  },
+  {
+    "name": "registrar_prediccion",
+    "description": "Registra una predicción falsable para puntuarla después. Máximo 2 por pasada; solo afirmaciones verificables con horizonte. Ancla la probabilidad en su tasa base antes de registrarla.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "afirmacion": {
+          "type": "string",
+          "description": "Afirmación falsable y verificable (con nivel o evento concreto)"
+        },
+        "probabilidad": {
+          "type": "number",
+          "description": "0.01-0.99"
+        },
+        "horizonte": {
+          "type": "string",
+          "description": "Preferiblemente fecha AAAA-MM-DD; si no, evento concreto"
+        },
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "evento",
+            "nivel",
+            "continuidad"
+          ],
+          "description": "evento = suceso discreto (represalia, intervención); nivel = ruptura/cierre de un precio; continuidad = que algo en curso siga"
+        },
+        "instrumento": {
+          "type": "string",
+          "enum": [
+            "WTI",
+            "Brent",
+            "USD/JPY",
+            "EUR/USD",
+            "GBP/USD",
+            "AUD/USD",
+            "USD/CHF",
+            "USD/CAD",
+            "S&P 500",
+            "Oro",
+            "Gas nat.",
+            "DXY",
+            "VIX",
+            "US 10A",
+            "Nasdaq",
+            "Russell 2000",
+            "Dow (US30)",
+            "Plata",
+            "Cobre",
+            "Platino",
+            "BTC",
+            "ETH"
+          ]
+        },
+        "condicion": {
+          "type": "string",
+          "enum": [
+            ">=",
+            "<=",
+            ">",
+            "<"
+          ]
+        },
+        "nivel_objetivo": {
+          "type": "number"
+        },
+        "modo": {
+          "type": "string",
+          "enum": [
+            "toca",
+            "cierra",
+            "mantiene"
+          ]
+        },
+        "fecha_limite": {
+          "type": "string",
+          "description": "Fecha ISO YYYY-MM-DD inclusiva del horizonte"
+        },
+        "hilo_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "afirmacion",
+        "probabilidad",
+        "horizonte",
+        "tipo"
+      ]
+    }
+  },
+  {
+    "name": "consultar_biblioteca",
+    "description": "Busca pasajes en la biblioteca de libros del trader. Disponibles: microestructura y riesgo (harris, vince, vince-mmm), macro (romer, blanchard), cripto (mastering-bitcoin), micro (masco), y DOCTRINA DEL ORO Y LA PLATA: oro-maloney (tesis de inversión en oro y plata), oro-rickards (nuevo caso del oro), oro-kosares (cómo posicionarse en oro), oro-eichengreen (patrón oro y la Gran Depresión), oro-bernstein e oro-nathan (historia del oro). Úsala para fundamentar una lectura, sobre todo al analizar metales.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "consulta": {
+          "type": "string",
+          "description": "Palabras clave en inglés (los libros están en inglés)"
+        },
+        "libro": {
+          "type": "string",
+          "description": "Opcional: limitar a un libro (p. ej. harris, oro-maloney)"
+        }
+      },
+      "required": [
+        "consulta"
+      ]
+    }
+  },
+  {
+    "name": "enlazar_noticia",
+    "description": "Enlaza una noticia (por su id) a un hilo, con una nota de qué aporta.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "noticia_id": {
+          "type": "integer"
+        },
+        "hilo_id": {
+          "type": "integer"
+        },
+        "nota": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "noticia_id",
+        "hilo_id"
+      ]
+    }
+  }
+]
